@@ -10,12 +10,18 @@ services:
       - "5000:5000"
     depends_on:
       - db
+    environment:
+      DB_USER: admin
+      DB_PASSWORD: verystrongpassword
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: shortenerdb
 
   db:
     image: postgres:latest
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: verystrongpassword
       POSTGRES_DB: shortenerdb
     volumes:
       - postgres_data:/var/lib/postgresql/data

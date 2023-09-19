@@ -2,12 +2,19 @@ from flask import Flask, render_template, request, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import shortuuid
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
 
 CORS(app, origins=["http://localhost:3000"])
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://user:password@db:5432/shortenerdb'
+DB_USER = os.environ.get("DB_USER")
+DB_PASSWORD = os.environ.get("DB_PASSWORD")
+DB_HOST = os.environ.get("DB_HOST", "db")
+DB_PORT = os.environ.get("DB_PORT", "5432")
+DB_NAME = os.environ.get("DB_NAME", "shortenerdb")
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
 db = SQLAlchemy(app)
 
 class Link(db.Model):
