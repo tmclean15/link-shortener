@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const App: React.FC = () => {
   const [url, setUrl] = useState<string>("");
   const [shortenedUrl, setShortenedUrl] = useState<string | null>(null);
@@ -9,7 +11,7 @@ const App: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/shorten", {
+      const response = await fetch(`${apiUrl}/shorten`, {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

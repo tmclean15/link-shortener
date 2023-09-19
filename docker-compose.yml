@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  web:
+  service:
     build: .
     command: python app.py
     volumes:
@@ -18,13 +18,24 @@ services:
       DB_NAME: shortenerdb
 
   db:
-    image: postgres:latest
+    image: postgres:16
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: verystrongpassword
       POSTGRES_DB: shortenerdb
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://service:5000
+    depends_on:
+      - service
 
 volumes:
   postgres_data:
