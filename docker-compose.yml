@@ -2,7 +2,9 @@ version: "3"
 
 services:
   service:
-    build: .
+    build:
+      context: ./service
+      dockerfile: Dockerfile
     command: python app.py
     volumes:
       - .:/code
@@ -33,7 +35,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      REACT_APP_API_URL: http://service:5000
+      REACT_APP_API_URL: http://localhost:5000
     depends_on:
       - service
 

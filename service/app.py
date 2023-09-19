@@ -22,10 +22,6 @@ class Link(db.Model):
     original_url = db.Column(db.String(500), nullable=False)
     short_url = db.Column(db.String(100), nullable=False, unique=True)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
 @app.route('/shorten', methods=['POST'])
 def shorten():
     original_url = request.form['url']
@@ -43,5 +39,6 @@ def redirect_to_original(short_code):
     return "URL not found", 404
 
 if __name__ == '__main__':
-    db.create_all()
-    app.run(debug=True)
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True, host="0.0.0.0")
